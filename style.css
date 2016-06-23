@@ -1,0 +1,33 @@
+body {
+    font-family: sans-serif;
+}
+span.protocol-keyword  {
+    color: #006666;
+    font-weight: bold;
+}
+
+span.protocol-format {
+    color: #660066;
+    font-weight: bold;
+}
+
+section h2 {
+    margin-left: 0px;
+}
+section h3 {
+    margin-left: 15px;
+}
+section p {
+    margin-left: 15px;
+}
+aside.doc-example {
+    margin-left: 40px;
+}
+aside.doc-example div {
+    font-size: 0.8em;
+    font-weight: bold;
+}
+aside.doc-example code {
+    font-size: 1.1em;
+}
+

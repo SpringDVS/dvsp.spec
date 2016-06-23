@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DVSP 1.0 Specification (Working Draft)</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body>
+	<article style="">
+		<header>
+			<h1>Spring Decentralised Virtual Service Protocol 1.0 Specification</h1>
+			Working Draft
+			<aside>
+				<ul>
+					<li><b>Last Modified:</b> 2016-06-23</li>
+					<li><b>Reply-To:</b> Charlie Fyvie-Gauld &lt;cfg@zunautica.org&gt;</li>
+				</ul>
+				This is a working draft will will change and be expanded on in
+				the future.			
+			</aside>
+		</header>
+
+		<section>
+			<h2>Roles</h2>
+			<p>
+				A computer connected to the network takes on one or more roles
+				which define the actions it performs on the network.
+			</p>
+
+			<h3>Hub</h3>
+			<p>
+				A <span class="protocol-keyword">Hub</span> acts purely as a
+				point for handling the orchestration of it's local geo-network.
+				It provides infrastructure to the network.
+				It acts as a point for making multi-cast requests to all 
+				other nodes on the network; a point for resolving URIs to
+				addresses or other networking interfaces; a gateway for 
+				other outside spring networks.
+			</p>
+
+			<p>
+				When a node wishes to join a geo-network, it will perform
+				a registration with one of the network's 
+				<span class="protocol-keyword">Hub</span> nodes. Once registered
+				the <span class="protocol-keyword">Hubs</span> will be able
+				to perform role dependent actions on the node.
+			</p>
+
+
+
+			<h3>Org</h3>
+			<p>
+				An <span class="protocol-keyword">Org</span> represents an
+				organisation on the network. The node exposes services to the
+				network, providing the various forms of communication and
+				functionality.
+			</p>
+			<h3>Hybrid</h3>
+			<p>
+				An <span class="protocol-keyword">Hybrid</span> represents a
+				combination or a <span class="protocol-keyword">Hub</span> and
+				an <span class="protocol-keyword">Org</span>.
+			</p>
+			<p>
+				A Hybrid can perform most of the infrastructual functions of 
+				<span class="protocol-keyword">Hub</span> while also
+				provide the services of an 
+				<span class="protocol-keyword">Org</span>
+			</p>
+		</section>
+		<section>
+			<h2>Properties</h2>
+			<p>
+				There will be mention of various properties of the nodes 
+				through the specification. The following are the properties and 
+				what they mean:
+			</p>
+			<h3>Springname</h3>
+			<p>
+			The <span class="protocol-keyword">springname</span> is the identifier
+			of a node within the context of the <em>spring network</em>. It is an
+			identity that is unique within a particular geo-network but could share
+			the same name with a node in a separate geo-network. The 
+			<span class="protocol-keyword">springname</span> is used to specify
+			the node in a spring URI.
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>spring://<b>spring</b>.esusx.uk</code>
+			</aside>
+			
+			
+			<h3>Hostname</h3>
+			<p>
+			The <span class="protocol-keyword">hostname</span> is the identifier
+			of the node in the context of the The Web and the Domain Name Service
+			records. It provides a point of service for a node through the HTTP
+			service layer and could represent the subdomain of a site the 
+			node software is running off the back of.
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>http://<b>node.domain.org</b></code>
+			</aside>
+			
+			
+			<h3>Address</h3>
+			<p>
+			The <span class="protocol-keyword">address</span> is the Internet
+			Protocol address used to make connections with the node. It could
+			be unique address within the network or it could be provided as 
+			a composite with a <span class="protocol-keyword">hostname</span> to 
+			differentiate the point of service from another node.
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>192.168.1.1</code>
+			</aside>
+			
+
+			<h3>State</h3>
+			<p>
+			The <span class="protocol-keyword">state</span> property defines what
+			service state the node is in within the context of the network. It
+			can take one of four different states. If it is disabled, it does
+			not service any requests; it is unresponsive it cannot be reached by
+			a hub; if it is unspecified it is in an invalid state and if it is
+			enabled it is functional and servicing requests.
+			
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>enabled | disabled | unresponsive | unspecified</code>
+			</aside>
+			
+			
+			
+			<h3>Role</h3>
+			<p>
+			The <span class="protocol-keyword">role</span> property defines the role and
+			so functionality the node performs. It can take one of three valid
+			roles. A <span class="protocol-keyword">hub</span> acts infrastructure
+			for a network; <span class="protocol-keyword">org</span> provides
+			services for an organisation and <span class="protocol-keyword">hybrid</span>
+			performs the function of both infrastructure and servicing organisations.
+			The <span class="protocol-keyword">unknown</span> role is an invalid
+			state.
+			
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>hub | org | hybrid | unknown</code>
+			</aside>
+			
+			<h3>Service</h3>
+			<p>
+			The <span class="protocol-keyword">service</span> property specifies
+			what form of service the node is running for it's point-of-service.
+			The property can take one of two valid services.
+			The <span class="protocol-keyword">dvsp</span> service means it is
+			running purely DVSP and there is no extra service-layer to translate
+			between; <span class="protocol-keyword">http</span> means the node
+			is running with an HTTP service layer, resulting in request translation.
+			An <span class="protocol-keyword">unknown</span> service is an 
+			invalid state.
+			
+			</p>
+			<aside class="doc-example">
+			<div>Example</div>
+				<code>dvsp | http | unknown</code>
+			</aside>
+			
+
+		</section>
+		<section>
+			<h2>Formats</h2>
+			<p>
+				There will be mention of various formats throughout the 
+				specification. These formats are set sequence of details
+				structured in a particular way. Different parts of a format
+				are separate by commas. The following sections defines 
+				these formats
+			</p>
+			
+			<h3>NodeSingle</h3>
+			<p>
+				A <span class="protocol-format">NodeSingle</span> consists of the
+				<span class="protocol-keyword">springname</span> for a node. It is
+				used as an identifier for a particular node on the network.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>springname</code>
+			</aside>
+			
+			<h3>NodeDouble</h3>
+			<p>
+				A <span class="protocol-format">NodeDouble</span> 
+				consists of the
+				<span class="protocol-keyword">springname</span>
+				and <span class="protocol-keyword">hostname</span> used in 
+				Domain Name Service records. It is used as an identifier for a 
+				node and it's associated 
+				<span class="protocol-keyword">hostname</span> for nodes that
+				use an HTTP service layer.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>springname,host.name</code>
+			</aside>
+			
+			<h3>NodeTriple</h3>
+			<p>
+				A <span class="protocol-format">NodeTriple</span> consists of the
+				<span class="protocol-keyword">springname</span>,
+				<span class="protocol-keyword">hostname</span> and it's
+				<span class="protocol-keyword">address</span> used by the Internet
+				Protocol.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>springname,host.name,127.0.0.1</code>
+			</aside>
+			
+			<h3>NodeQuad</h3>
+			<p>
+				A <span class="protocol-format">NodeQuad</span>
+				consists of the
+				<span class="protocol-keyword">springname</span>,
+				<span class="protocol-keyword">hostname</span>,
+				<span class="protocol-keyword">address</span>
+				and the <span class="protocol-keyword">service</span>
+				layer that it uses.
+				This format acts as the node's network
+				interface details which are required to perform a request
+				with the node.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>springname,host.name,127.0.0.1,http</code>
+			</aside>
+			
+			<h3>NodeInfo</h3>
+			<p>
+				A <span class="protocol-format">NodeInfo</span> 
+				consists of the
+				<span class="protocol-keyword">springname</span>,
+				<span class="protocol-keyword">hostname</span>,
+				<span class="protocol-keyword">address</span>, 
+				<span class="protocol-keyword">service</span>, 
+				<span class="protocol-keyword">role</span> and 
+				<span class="protocol-keyword">state</span>.
+				
+				However, it does not
+				necessarily have to contain all this information, just select details
+				which means each item is qualified by what it is.
+
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>spring:springname,state:enabled,role:hybrid</code>
+			</aside>
+			
+			<h3>Network</h3>
+			<p>
+				A <span class="protocol-format">Network</span> 
+				is a composite format that consists of a list of 
+				<span class="protocol-format">NodeQuad</span> items, separated
+				by semicolons. This is used to represent a list or network of nodes, 
+				where each item provides the details required to make a request with
+				that particular node.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>springname,host.name,127.0.0.1,http;foobar,foo.bar,127.0.0.2,dvsp</code>
+			</aside>
+		</section>
+		
+		<section>
+			<h2>Overview of a Request</h2>
+			<p>
+				A request takes the form of a textual request denoting the action
+				to be taken by the recipient. The request may be followed by more
+				relevant textual specifiers and textual parameters. All protocol
+				actions, specifiers and parameters are lowercase. The different
+				parts of a request are separated by a space or semicolons.
+			</p>
+
+			<p>
+				If the recipient supports the action, it will process the request
+				and respond with a code denoting the result of the action. The
+				response may contain extra data, depending on the request.
+			</p>
+		</section>
+		<section>
+			<h2>Protocol Action Requests</h2>
+			<h3>register</h3>
+			<p>
+				The <span class="protocol-keyword">register</span> action 
+				command is used to request registration with a geo-network.
+				It is sent to a network <span class="protocol-keyword">Hub</span>
+				or a <span class="protocol-keyword">Hybrid</span> node.
+			</p>
+			<p>
+				The registration parameters are a 
+				<span class="protocol-format">NodeDouble</span>, the role of the
+				node, the service protocol it will be running through and a 
+				registration token used to validate the registration the request
+				with the network.
+			</p>
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>register spring,host.name;role;service;validation</code>
+			</aside>
+			
+
+			<h3>unregister</h3>
+			<p>
+				The <span class="protocol-keyword">unregister</span> action 
+				command is used to request unregistration with a geo-network.
+				It is sent to the node's network <span class="protocol-keyword">Hub</span>
+				or a <span class="protocol-keyword">Hybrid</span> node of the network.
+				It has one <em>required</em> <span class="protocol-format">NodeSingle</span>
+				parameter 
+			</p>
+		
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>unregister spring</code>
+			</aside>	
+			
+			<h3>info</h3>
+			<p>
+				The <span class="protocol-keyword">info</span> action is used
+				to request some details. The specifier specifies type of details
+				are being requested, and then a list of zero or more parameters
+				depending on the specifier.
+			</p>
+							
+			<h4>`network` specifier</h4>
+			<p>
+				Request a list of nodes in the network. This specifier has no
+				parameters. A response will always be a <span class="protocol-format">Network</span>
+				format of zero or more nodes.
+			</p>
+			
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>info network</code>
+			</aside>
+			
+			
+			<h4>`node` specifier</h4>
+			<p>
+				Request details about a node. This specifier has one <em>required</em>
+				<span class="protocol-format">NodeSingle</span> parameter 
+				which is used to identify the node. It has one <em>optional</em>
+				specifier used to identify a property to query. The default query, without
+				the optional parameter, means a query for all details. A response
+				of a successful request will be <span class="protocol-format">NodeInfo</span>
+				formatted item detailing the specified property, or all the 
+				properties.
+			</p>
+			
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>info node springname {all|host|address|state|role|servive}</code>
+			</aside>	
+		</section>
+	</article>
+</body>
+</html>
