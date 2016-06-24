@@ -261,6 +261,8 @@
 				<div>Example</div>
 				<code>spring:springname,state:enabled,role:hybrid</code>
 			</aside>
+
+			
 			
 			<h3>Network</h3>
 			<p>
@@ -295,6 +297,10 @@
 		</section>
 		<section>
 			<h2>Protocol Action Requests</h2>
+			
+			
+			
+			
 			<h3>register</h3>
 			<p>
 				The <span class="protocol-keyword">register</span> action 
@@ -304,14 +310,48 @@
 			</p>
 			<p>
 				The registration parameters are a 
-				<span class="protocol-format">NodeDouble</span>, the role of the
-				node, the service protocol it will be running through and a 
-				registration token used to validate the registration the request
-				with the network.
+				<span class="protocol-format">NodeDouble</span> parameter, a 
+				<span class="protocol-keyword">role</span> enumerator,
+				<span class="protocol-keyword">service</span> enumerator,
+				and a registration token formal parameter used to 
+				validate the request with the network.
 			</p>
 			<aside class="doc-example">
 				<div>Example</div>
 				<code>register spring,host.name;role;service;validation</code>
+			</aside>
+			
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td>-</td>
+						<td>Registered successfully</td>
+					</tr>
+					<tr>
+						<td>NetspaceDuplication</td>
+						<td>-</td>
+						<td>Node with springname already exists</td>
+					</tr>
+					
+					<tr>
+						<td>NetspaceError</td>
+						<td>-</td>
+						<td>Registration token invalid</td>
+					</tr>
+
+				</tbody>
+				</table>
 			</aside>
 			
 
@@ -322,26 +362,56 @@
 				It is sent to the node's network <span class="protocol-keyword">Hub</span>
 				or a <span class="protocol-keyword">Hybrid</span> node of the network.
 				It has one <em>required</em> <span class="protocol-format">NodeSingle</span>
-				parameter 
+				formal parameter used to identify the node making the request. A
+				response will be a code denoting the result of the action.
 			</p>
 		
 			<aside class="doc-example">
 				<div>Example</div>
 				<code>unregister spring</code>
-			</aside>	
+			</aside>
+			
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td>-</td>
+						<td>Unregistered successfully</td>
+					</tr>
+								
+					<tr>
+						<td>NetspaceError</td>
+						<td>-</td>
+						<td>Node with springname not on network</td>
+					</tr>
+
+				</tbody>
+				</table>
+			</aside>
 			
 			<h3>info</h3>
 			<p>
 				The <span class="protocol-keyword">info</span> action is used
 				to request some details. The specifier specifies type of details
 				are being requested, and then a list of zero or more parameters
-				depending on the specifier.
+				depending on specifier
 			</p>
 							
 			<h4>`network` specifier</h4>
 			<p>
 				Request a list of nodes in the network. This specifier has no
-				parameters. A response will always be a <span class="protocol-format">Network</span>
+				parameters. A response will always be a 
+				<span class="protocol-format">Network</span>
 				format of zero or more nodes.
 			</p>
 			
@@ -349,24 +419,131 @@
 				<div>Example</div>
 				<code>info network</code>
 			</aside>
+
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td><span class="protocol-format">Network</span></td>
+						<td>Always responds with zero or more node list</td>
+					</tr>
+				</tbody>
+				</table>
+			</aside>
 			
 			
 			<h4>`node` specifier</h4>
 			<p>
 				Request details about a node. This specifier has one <em>required</em>
-				<span class="protocol-format">NodeSingle</span> parameter 
+				<span class="protocol-format">NodeSingle</span> formal parameter 
 				which is used to identify the node. It has one <em>optional</em>
-				specifier used to identify a property to query. The default query, without
-				the optional parameter, means a query for all details. A response
-				of a successful request will be <span class="protocol-format">NodeInfo</span>
+				enumerator used to identify a 
+				<span class="protocol-keyword">Node Property</span> to query. 
+				The default query, without the optional enumerator, means a query 
+				for all details. A response of a successful request will be 
+				<span class="protocol-format">NodeInfo</span>
 				formatted item detailing the specified property, or all the 
 				properties.
 			</p>
 			
+			
+			
+			
 			<aside class="doc-example">
 				<div>Example</div>
 				<code>info node springname {all|host|address|state|role|servive}</code>
-			</aside>	
+			</aside>
+
+
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td><span class="protocol-format">NodeInfo</span></td>
+						<td>Info request successful</td>
+					</tr>
+								
+					<tr>
+						<td>NetspaceError</td>
+						<td>-</td>
+						<td>Node does not exist on network</td>
+					</tr>
+					
+				</tbody>
+				</table>
+			</aside>
+
+			
+			<h3>update</h3>
+			<p>
+				The <span class="protocol-keyword">update</span> action is used
+				to request an update of a property for a node. (Currently only 
+				<span class="protocol-keyword">state</span> is 
+				supported for update). There is a <em>required</em>
+				<span class="protocol-format">NodeSingle</span> formal parameter,
+				a <em>required</em> <span class="protocol-keyword">Node Property</span> 
+				enumerator, and a <em>required</em> value for the specified
+				property.
+			</p>
+							
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>update foo state disabled</code>
+			</aside>
+			
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td>-</td>
+						<td>Update action successful</td>
+					</tr>
+								
+					<tr>
+						<td>NetspaceError</td>
+						<td>-</td>
+						<td>Node does not exist on network</td>
+					</tr>
+					
+					<tr>
+						<td>NetworkError</td>
+						<td>-</td>
+						<td>Does not have access rights to update property of node</td>
+					</tr>
+				</tbody>
+				</table>
+			</aside>
+
 		</section>
 	</article>
 </body>

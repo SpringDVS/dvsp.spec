@@ -4,6 +4,8 @@ body {
 span.protocol-keyword  {
     color: #006666;
     font-weight: bold;
+    font-family: monospace;
+    font-size: 1.2em;
 }
 
 span.protocol-format {
@@ -14,20 +16,40 @@ span.protocol-format {
 section h2 {
     margin-left: 0px;
 }
-section h3 {
+section h3,
+section h4 {
     margin-left: 15px;
 }
 section p {
     margin-left: 15px;
 }
-aside.doc-example {
+aside.doc-example,
+aside.doc-response {
     margin-left: 40px;
+    margin-top: 20px;
 }
-aside.doc-example div {
+aside.doc-example div,
+aside.doc-response div {
     font-size: 0.8em;
     font-weight: bold;
 }
 aside.doc-example code {
     font-size: 1.1em;
+}
+aside.doc-response table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+aside.doc-response table th {
+    text-align: left;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    border-bottom: 1px solid #999999;
+}
+aside.doc-response table td {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-bottom: 1px solid #999999;
 }
 
