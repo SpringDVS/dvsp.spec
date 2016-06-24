@@ -13,7 +13,7 @@
 			Working Draft
 			<aside>
 				<ul>
-					<li><b>Last Modified:</b> 2016-06-23</li>
+					<li><b>Last Modified:</b> 2016-06-24</li>
 					<li><b>Reply-To:</b> Charlie Fyvie-Gauld &lt;cfg@zunautica.org&gt;</li>
 				</ul>
 				This is a working draft will will change and be expanded on in
@@ -278,7 +278,7 @@
 				<code>springname,host.name,127.0.0.1,http;foobar,foo.bar,127.0.0.2,dvsp</code>
 			</aside>
 		</section>
-		
+
 		<section>
 			<h2>Overview of a Request</h2>
 			<p>
@@ -289,12 +289,34 @@
 				parts of a request are separated by a space or semicolons.
 			</p>
 
+		</section>
+		
+		<section>
+			<h2>Response Codes</h2>
 			<p>
-				If the recipient supports the action, it will process the request
-				and respond with a code denoting the result of the action. The
-				response may contain extra data, depending on the request.
+				When a request is performed, the node receiving and processing 
+				the request will send a numeric response once it has the result. 
+				Depending on the action of the request, the same response code 
+				may have different meanings. The response code may also be
+				accompanied by resulting data. The following is a list of the 
+				numeric response codes and their textual equivalent.
+			</p>
+			
+			<ul>
+				<li>200 Ok</li>
+				<li>101 NetspaceError</li>
+				<li>102 NetspaceDuplication</li>
+				<li>103 NetworkError</li>
+				<li>104 MalformedContent</li>
+				<li>121 UnsupportedAction</li>
+				<li>122 UnsupportedService</li>
+			</ul>
+			<p>
+				If a request is in an invalid state the receiving node will 
+				aggressively fail to parse and respond with MalformedContent.
 			</p>
 		</section>
+
 		<section>
 			<h2>Protocol Action Requests</h2>
 			
@@ -314,7 +336,8 @@
 				<span class="protocol-keyword">role</span> enumerator,
 				<span class="protocol-keyword">service</span> enumerator,
 				and a registration token formal parameter used to 
-				validate the request with the network.
+				validate the request with the network. A response will be a code 
+				denoting the result of the action.
 			</p>
 			<aside class="doc-example">
 				<div>Example</div>
@@ -544,6 +567,60 @@
 				</table>
 			</aside>
 
+			
+			<h3>resolve</h3>
+			<p>
+				The <span class="protocol-keyword">resolve</span> action is used
+				to request a resolution on a <em>Spring URI</em> into network
+				interface details. It takes a <em>required</em> 
+				<span class="protocol-keyword">URI</span>
+				formal parameter. The response may be a 
+				<span class="protocol-format">NodeInfo</span> or a
+				<span class="protocol-format">Network</span>, depending on 
+				whether the result is a single node or various nodes.
+			</p>
+							
+			<aside class="doc-example">
+				<div>Example</div>
+				<code>resolve spring://example.esusx.uk</code>
+			</aside>
+			
+			<aside class="doc-response">
+				<div>Response</div>
+				<table>
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Data</th>
+						<th>Reason</th>
+					</tr>
+				
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ok</td>
+						<td>
+							<span class="protocol-format">NodeInfo</span> | 
+							<span class="protocol-format">Network</span>
+						</td>
+						<td>Resolved successfully</td>
+					</tr>
+								
+					<tr>
+						<td>NetspaceError</td>
+						<td>-</td>
+						<td>The URI route is bad, node not found</td>
+					</tr>
+					
+					<tr>
+						<td>NetworkError</td>
+						<td>-</td>
+						<td>No hubs or networks were found</td>
+					</tr>
+	
+				</tbody>
+				</table>
+			</aside>
 		</section>
 	</article>
 </body>
